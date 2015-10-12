@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <uk.co.imallan.jellyrefresh.JellyView
+    <com.rohitiskul.jellyrefresh.JellyView
         android:id="@+id/jelly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <uk.co.imallan.jellyrefresh.ProgressWheel
+    <com.rohitiskul.jellyrefresh.ProgressWheel
         android:id="@+id/progress_wheel_loader"
         android:layout_width="56dp"
         android:layout_height="56dp"

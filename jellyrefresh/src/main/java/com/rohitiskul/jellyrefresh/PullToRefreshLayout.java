@@ -1,5 +1,6 @@
-package uk.co.imallan.jellyrefresh;
+package com.rohitiskul.jellyrefresh;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -21,14 +22,10 @@ import android.widget.FrameLayout;
  */
 class PullToRefreshLayout extends FrameLayout {
 
-    private float mTouchStartY;
-
-    private float mCurrentY;
-
-    private View mChildView;
-
     private static DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(10);
-
+    private float mTouchStartY;
+    private float mCurrentY;
+    private View mChildView;
     private float mPullHeight;
 
     private float mHeaderHeight;
@@ -81,16 +78,22 @@ class PullToRefreshLayout extends FrameLayout {
                 TypedValue.COMPLEX_UNIT_DIP,
                 100,
                 getContext().getResources().getDisplayMetrics());
-
-        this.post(() -> {
-            mChildView = getChildAt(0);
-            addHeaderContainer();
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                mChildView = getChildAt(0);
+                addHeaderContainer();
+            }
         });
-
     }
 
-    public void setHeaderView(View headerView) {
-        post(() -> mHeader.addView(headerView));
+    public void setHeaderView(final View headerView) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mHeader.addView(headerView);
+            }
+        });
     }
 
     public void setPullHeight(float pullHeight) {
@@ -129,15 +132,17 @@ class PullToRefreshLayout extends FrameLayout {
             return;
         }
         mChildView.animate().setInterpolator(new DecelerateInterpolator());
-        mChildView.animate().setUpdateListener(animation -> {
-                    int height = (int) mChildView.getTranslationY();
-                    mHeader.getLayoutParams().height = height;
-                    mHeader.requestLayout();
-                    if (mPullToRefreshPullingListener != null) {
-                        mPullToRefreshPullingListener.onReleasing(this, height / mHeaderHeight);
-                    }
+        mChildView.animate().setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int height = (int) mChildView.getTranslationY();
+                mHeader.getLayoutParams().height = height;
+                mHeader.requestLayout();
+                if (mPullToRefreshPullingListener != null) {
+                    mPullToRefreshPullingListener.onReleasing(PullToRefreshLayout.this, height / mHeaderHeight);
                 }
-        );
+            }
+        });
     }
 
     private void addViewInternal(@NonNull View child) {

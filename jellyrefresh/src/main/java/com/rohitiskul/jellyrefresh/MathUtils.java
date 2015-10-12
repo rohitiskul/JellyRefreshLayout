@@ -1,4 +1,4 @@
-package uk.co.imallan.jellyrefresh;
+package com.rohitiskul.jellyrefresh;
 
 /**
  * Created by yilun

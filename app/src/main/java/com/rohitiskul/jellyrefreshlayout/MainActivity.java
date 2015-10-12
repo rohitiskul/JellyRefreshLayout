@@ -1,4 +1,4 @@
-package uk.co.imallan.jellyrefreshlayout;
+package com.rohitiskul.jellyrefreshlayout;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import uk.co.imallan.jellyrefresh.JellyRefreshLayout;
+import com.rohitiskul.jellyrefresh.JellyRefreshLayout;
 
 public class MainActivity extends AppCompatActivity {
 

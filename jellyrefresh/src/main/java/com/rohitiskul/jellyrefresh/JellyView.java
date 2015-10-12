@@ -1,4 +1,4 @@
-package uk.co.imallan.jellyrefresh;
+package com.rohitiskul.jellyrefresh;
 
 import android.annotation.TargetApi;
 import android.content.Context;
