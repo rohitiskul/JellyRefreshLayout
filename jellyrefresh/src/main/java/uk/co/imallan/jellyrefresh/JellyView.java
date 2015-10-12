@@ -50,7 +50,7 @@ public class JellyView extends View {
         }
         path = new Path();
         paint = new Paint();
-        paint.setColor(getContext().getResources().getColor(android.R.color.holo_blue_bright));
+        paint.setColor(getContext().getResources().getColor(android.R.color.darker_gray));
         paint.setAntiAlias(true);
     }
 
@@ -69,20 +69,20 @@ public class JellyView extends View {
     }
 
     @Override
-    public void setMinimumHeight(int minimumHeight) {
-        this.minimumHeight = minimumHeight;
-    }
-
-    public void setJellyHeight(int ribbonHeight) {
-        this.jellyHeight = ribbonHeight;
-    }
-
-    @Override
     public int getMinimumHeight() {
         return minimumHeight;
     }
 
+    @Override
+    public void setMinimumHeight(int minimumHeight) {
+        this.minimumHeight = minimumHeight;
+    }
+
     public int getJellyHeight() {
         return jellyHeight;
+    }
+
+    public void setJellyHeight(int ribbonHeight) {
+        this.jellyHeight = ribbonHeight;
     }
 }

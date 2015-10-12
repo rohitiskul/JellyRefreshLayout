@@ -20,9 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:text="@string/loading"
-        android:textColor="@android:color/white"
-        app:jellyColor="@color/primary">
+        app:jellyColor="@color/primary"
+        app:progressBarColor="@color/material_blue_grey_900">
 
         <ScrollView
             android:layout_width="match_parent"

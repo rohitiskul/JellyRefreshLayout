@@ -10,7 +10,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.TextView;
 
 /**
  * User: Yilun Chen
@@ -20,10 +19,7 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
 
     JellyRefreshListener mJellyRefreshListener;
 
-    private String mLoadingText = "Loading...";
-
-    private int mLoadingTextColor;
-
+    private int mProgressBarColor;
     private int mJellyColor;
 
     public JellyRefreshLayout(Context context) {
@@ -53,11 +49,8 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.JellyRefreshLayout);
         try {
             Resources resources = getResources();
-            mLoadingText = a.getString(R.styleable.JellyRefreshLayout_android_text);
-            mLoadingTextColor = a.getColor(R.styleable.JellyRefreshLayout_android_textColor,
-                    resources.getColor(android.R.color.white));
-            mJellyColor = a.getColor(R.styleable.JellyRefreshLayout_jellyColor,
-                    resources.getColor(android.R.color.holo_blue_bright));
+            mProgressBarColor = a.getColor(R.styleable.JellyRefreshLayout_progressBarColor, resources.getColor(android.R.color.white));
+            mJellyColor = a.getColor(R.styleable.JellyRefreshLayout_jellyColor, resources.getColor(android.R.color.darker_gray));
         } finally {
             a.recycle();
         }
@@ -74,10 +67,9 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
 
         @SuppressLint("InflateParams") View headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_pull_header, null);
         final JellyView jellyView = (JellyView) headerView.findViewById(R.id.jelly);
-        final TextView textLoading = (TextView) headerView.findViewById(R.id.text_loading);
+        final ProgressWheel progressWheel = (ProgressWheel) headerView.findViewById(R.id.progress_wheel_loader);
+        progressWheel.setBarColor(mProgressBarColor);
         jellyView.setJellyColor(mJellyColor);
-        textLoading.setText(mLoadingText);
-        textLoading.setTextColor(mLoadingTextColor);
         final float headerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
         setHeaderHeight(headerHeight);
         final float pullHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
@@ -106,7 +98,7 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        textLoading.setVisibility(View.VISIBLE);
+                                        progressWheel.setVisibility(View.VISIBLE);
                                     }
                                 }, 120
                         );
@@ -116,7 +108,7 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
         setPullingListener(new PullToRefreshLayout.PullToRefreshPullingListener() {
             @Override
             public void onPulling(PullToRefreshLayout pullToRefreshLayout, float fraction) {
-                textLoading.setVisibility(View.GONE);
+                progressWheel.setVisibility(View.GONE);
                 jellyView.setMinimumHeight((int) (headerHeight * MathUtils.constrains(0, 1, fraction)));
                 jellyView.setJellyHeight((int) (pullHeight * Math.max(0, fraction - 1)));
                 jellyView.invalidate();
@@ -125,7 +117,7 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
             @Override
             public void onReleasing(PullToRefreshLayout pullToRefreshLayout, float fraction) {
                 if (!pullToRefreshLayout.isRefreshing()) {
-                    textLoading.setVisibility(View.GONE);
+                    progressWheel.setVisibility(View.GONE);
                 }
             }
         });
