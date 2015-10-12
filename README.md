@@ -3,8 +3,7 @@ A pull-down-to-refresh layout inspired by Lollipop overscrolled effects
 
 Preview
 --------
-![Preview](https://youtu.be/mW7Y43dNpNM)
-[![Everything Is AWESOME](http://img.youtube.com/vi/StTqXEQ2l-Y/0.jpg)](https://www.youtube.com/watch?v=StTqXEQ2l-Y "Everything Is AWESOME")
+[![Preview](http://img.youtube.com/vi/mW7Y43dNpNM/0.jpg)](https://www.youtube.com/watch?v=mW7Y43dNpNM "Jelly preview")
 
 Download
 --------
