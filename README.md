@@ -3,7 +3,7 @@ A pull-down-to-refresh layout inspired by Lollipop overscrolled effects
 
 Preview
 --------
-![Preview](images/preview.gif)
+[![Preview](http://img.youtube.com/vi/mW7Y43dNpNM/0.jpg)](https://www.youtube.com/watch?v=mW7Y43dNpNM "Jelly preview")
 
 Download
 --------
