@@ -1,10 +1,13 @@
 package com.rohitiskul.jellyrefresh;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -48,9 +51,9 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
     private void setAttributes(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.JellyRefreshLayout);
         try {
-            Resources resources = getResources();
-            mProgressBarColor = a.getColor(R.styleable.JellyRefreshLayout_progressBarColor, resources.getColor(android.R.color.white));
-            mJellyColor = a.getColor(R.styleable.JellyRefreshLayout_jellyColor, resources.getColor(android.R.color.darker_gray));
+            Context context = getContext();
+            mProgressBarColor = a.getColor(R.styleable.JellyRefreshLayout_progressBarColor, ContextCompat.getColor(context, android.R.color.white));
+            mJellyColor = a.getColor(R.styleable.JellyRefreshLayout_jellyColor, ContextCompat.getColor(context, android.R.color.darker_gray));
         } finally {
             a.recycle();
         }
@@ -94,14 +97,16 @@ public class JellyRefreshLayout extends PullToRefreshLayout {
                         animator.setInterpolator(new OvershootInterpolator(3));
                         animator.setDuration(200);
                         animator.start();
-                        pullToRefreshLayout.postDelayed(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progressWheel.setVisibility(View.VISIBLE);
-                                    }
-                                }, 120
-                        );
+                        ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(progressWheel, View.ALPHA, 0, 1);
+                        alphaAnim.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                progressWheel.setVisibility(VISIBLE);
+                            }
+                        });
+                        alphaAnim.setStartDelay(120);
+                        alphaAnim.setDuration(200);
+                        alphaAnim.start();
                     }
                 }
         );

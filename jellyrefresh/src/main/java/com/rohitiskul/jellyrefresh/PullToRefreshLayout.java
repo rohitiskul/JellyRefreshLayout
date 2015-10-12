@@ -1,5 +1,6 @@
 package com.rohitiskul.jellyrefresh;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -35,8 +36,19 @@ class PullToRefreshLayout extends FrameLayout {
     private PullToRefreshListener mPullToRefreshListener;
 
     private PullToRefreshPullingListener mPullToRefreshPullingListener;
-
     private FrameLayout mHeader;
+    private ValueAnimator.AnimatorUpdateListener listener = new ValueAnimator.AnimatorUpdateListener() {
+
+        @Override
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            int height = (int) mChildView.getTranslationY();
+            mHeader.getLayoutParams().height = height;
+            mHeader.requestLayout();
+            if (mPullToRefreshPullingListener != null) {
+                mPullToRefreshPullingListener.onReleasing(PullToRefreshLayout.this, height / mHeaderHeight);
+            }
+        }
+    };
 
     public PullToRefreshLayout(Context context) {
         super(context);
@@ -104,14 +116,6 @@ class PullToRefreshLayout extends FrameLayout {
         this.mHeaderHeight = headerHeight;
     }
 
-    public float getmPullHeight() {
-        return mPullHeight;
-    }
-
-    public float getmHeaderHeight() {
-        return mHeaderHeight;
-    }
-
     public boolean isRefreshing() {
         return isRefreshing;
     }
@@ -131,18 +135,10 @@ class PullToRefreshLayout extends FrameLayout {
         if (mChildView == null) {
             return;
         }
-        mChildView.animate().setInterpolator(new DecelerateInterpolator());
-        mChildView.animate().setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int height = (int) mChildView.getTranslationY();
-                mHeader.getLayoutParams().height = height;
-                mHeader.requestLayout();
-                if (mPullToRefreshPullingListener != null) {
-                    mPullToRefreshPullingListener.onReleasing(PullToRefreshLayout.this, height / mHeaderHeight);
-                }
-            }
-        });
+        final ObjectAnimator animator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_Y, 0);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.addUpdateListener(listener);
+        animator.start();
     }
 
     private void addViewInternal(@NonNull View child) {
@@ -226,13 +222,17 @@ class PullToRefreshLayout extends FrameLayout {
             case MotionEvent.ACTION_UP:
                 if (mChildView != null) {
                     if (mChildView.getTranslationY() >= mHeaderHeight) {
-                        mChildView.animate().translationY(mHeaderHeight).start();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_Y, mHeaderHeight);
+                        animator.addUpdateListener(listener);
+                        animator.start();
                         isRefreshing = true;
                         if (mPullToRefreshListener != null) {
                             mPullToRefreshListener.onRefresh(this);
                         }
                     } else {
-                        mChildView.animate().translationY(0).start();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_Y, 0);
+                        animator.addUpdateListener(listener);
+                        animator.start();
                     }
 
                 }
@@ -252,7 +252,9 @@ class PullToRefreshLayout extends FrameLayout {
 
     public void finishRefreshing() {
         if (mChildView != null) {
-            mChildView.animate().translationY(0).start();
+            ObjectAnimator animator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_Y, 0);
+            animator.addUpdateListener(listener);
+            animator.start();
         }
         isRefreshing = false;
     }

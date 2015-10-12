@@ -15,7 +15,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Toolbar.Light" />
 
-    <uk.co.imallan.jellyrefresh.JellyRefreshLayout
+    <com.rohitiskul.jellyrefresh.JellyRefreshLayout
         android:id="@+id/jelly_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +36,7 @@
 
         </ScrollView>
 
-    </uk.co.imallan.jellyrefresh.JellyRefreshLayout>
+    </com.rohitiskul.jellyrefresh.JellyRefreshLayout>
 
 
 </RelativeLayout>
