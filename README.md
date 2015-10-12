@@ -69,6 +69,11 @@ mJellyLayout.finishRefreshing();
 
 You can also find more usages in the sample app included
 
+Thanks to
+--------
+1. [JellyRefreshLayout](https://github.com/allan1st/JellyRefreshLayout) for Jelly Refresh Layout
+2. [materialish-progress](https://github.com/pnikosis/materialish-progress) for Material Progress bar 
+
 License
 --------
     The MIT License (MIT)
