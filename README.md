@@ -15,7 +15,7 @@ repositories {
     }
 }
 dependencies {
-    compile 'com.github.allan1st:JellyRefreshLayout:1.0.0'
+    compile 'com.github.rohitiskul:JellyRefreshLayout:1.0.1'
 }
 ```
 or Maven
@@ -28,9 +28,9 @@ or Maven
 
 ```xml
 <dependency>
-    <groupId>com.github.allan1st</groupId>
+    <groupId>com.github.rohitiskul</groupId>
     <artifactId>JellyRefreshLayout</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -39,10 +39,9 @@ Usage
 Wrap any RecyclerView/ScrollView/ListView with JellyRefreshLayout
 
 ```xml
-<uk.co.imallan.jellyrefresh.JellyRefreshLayout
+<com.rohitiskul.jellyrefresh.JellyRefreshLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:text="@string/your_loading_text"
-    android:textColor="@color/your_loading_text_color"
+    app:progressBarColor="@color/your_progress_bar_color"
     app:jellyColor="@color/your_jelly_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -51,7 +50,7 @@ Wrap any RecyclerView/ScrollView/ListView with JellyRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     
-</uk.co.imallan.jellyrefresh.JellyRefreshLayout>
+</com.rohitiskul.jellyrefresh.JellyRefreshLayout>
 ```
 
 Call back when triggering refresh:
@@ -74,7 +73,7 @@ License
 --------
     The MIT License (MIT)
 
-    Copyright (c) 2015 Yilun Chen
+    Copyright (c) 2015 Rohit Kulkarni
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
